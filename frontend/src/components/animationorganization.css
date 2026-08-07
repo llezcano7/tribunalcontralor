@@ -1,0 +1,11 @@
+.trace {
+  stroke-dasharray: 175;
+  stroke-dashoffset: 175;
+  animation: circuitDraw 3s linear infinite;
+}
+
+@keyframes circuitDraw {
+  to {
+    stroke-dashoffset: -175;
+  }
+}

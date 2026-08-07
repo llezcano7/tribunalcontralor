@@ -1,0 +1,116 @@
+.organizacion-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.organizacion-title h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  color: var(--color-accent-light);
+  animation: glow 3s ease-in-out infinite;
+  text-align: center;
+}
+
+.organizacion-item {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Item PAR (0, 2, 4...): Animación izq → Texto der */
+.organizacion-item.align-right {
+  flex-direction: row;
+  /* Orden normal */
+}
+
+.organizacion-item.align-right .organizacion-content {
+  text-align: right; /* 👈 Afecta a h3, p y cualquier otro elemento */
+}
+
+/* Item IMPAR (1, 3, 5...): Texto izq ← Animación der */
+.organizacion-item.align-left {
+  flex-direction: row-reverse;
+}
+
+.organizacion-item.align-left .organizacion-content {
+  text-align: left; /* 👈 Afecta a h3, p y cualquier otro elemento */
+}
+
+
+.organizacion-animacion {
+  flex: 0 0 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.organizacion-content {
+  flex: 1;
+  padding: 2rem;
+  background: var(--color-accent);
+  opacity: 0.9;
+  border-radius: 8px;
+}
+
+.organizacion-content h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+
+.organizacion-content p {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* MEDIA QUERYS */
+@media (max-width: 898px) {
+  /* Sobrescribe AMBAS clases con mayor especificidad */
+  .organizacion-item.align-right,
+  .organizacion-item.align-left {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  
+  /* Centra el texto en móvil */
+  .organizacion-item.align-right .organizacion-content,
+  .organizacion-item.align-left .organizacion-content {
+    text-align: center;
+  }
+  
+  /* Ajusta el tamaño de la animación */
+  .organizacion-animacion {
+    flex: 0 0 150px;
+    height: 150px;
+  }
+
+  .organizacion-section {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 726px) {
+  .organizacion-section.container {
+    padding-inline: var(--space-mm);
+  }
+}
+
+@media (max-width: 510px) {
+  .organizacion-animacion {
+    flex: 0 0 120px;
+    height: 120px;
+  }
+
+  .organizacion-section.container {
+    padding-inline: var(--space-ss);
+  }
+  .organizacion-content {
+    padding: 1rem;
+  }
+}

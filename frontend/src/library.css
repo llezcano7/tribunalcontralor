@@ -1,0 +1,12 @@
+.container{
+    padding-inline: 6rem;
+}
+
+.block-start{
+    padding-block-start: 9rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
