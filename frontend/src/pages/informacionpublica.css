@@ -1,10 +1,5 @@
-/* ================================
-   INFORMACIÓN PÚBLICA
-   ================================ */
-
 .infpub {
   padding-block-end: var(--space-xxl);
-  min-height: 100vh;
 }
 
 /* HEADER */
