@@ -2,29 +2,352 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: var(--space-l);
+  padding-block-end: var(--space-xxl);
 }
 
 .ddjj-title {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: var(--space-ss);
+  max-width: 1200px;
+  text-align: center;
 }
 
 .ddjj-title h3 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-white);
-  animation: glow 3s ease-in-out infinite;
   text-align: center;
 }
 
 .ddjj-title p {
   font-family: var(--font-body);
   font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--color-white);
+  color: var(--color-gray-light);
   text-align: center;
-  margin-block-start: var(--space-s);
+}
+
+.ddjj-form {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  padding: var(--space-l);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(26, 41, 66, 0.5);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+
+  /* Animación de entrada */
+  animation: formEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  /* Transición hover */
+  transition: border-color 0.9s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* Línea de acento superior animada */
+.ddjj-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), var(--color-accent-light), transparent);
+  transition: left 0.6s ease;
+}
+
+.ddjj-form:hover::before {
+  left: 100%;
+}
+
+.ddjj-form:hover {
+  border-color: rgba(8, 145, 178, 0.25);
+  background: rgba(26, 41, 66, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(8, 145, 178, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 80px rgba(8, 145, 178, 0.04);
+}
+
+@keyframes formEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.ddjj-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-m);
+}
+
+.ddjj-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  /* Cada campo entra con un pequeño delay escalonado */
+  animation: fieldEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ddjj-field:nth-child(1) { animation-delay: 0.1s; }
+.ddjj-field:nth-child(2) { animation-delay: 0.15s; }
+
+@keyframes fieldEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ddjj-field label {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-gray-light);
+  transition: color 0.2s ease;
+}
+
+.ddjj-field:focus-within label {
+  color: var(--color-accent);
+}
+
+.ddjj-required {
+  color: var(--color-accent);
+}
+
+.ddjj-field input[type="text"],
+.ddjj-field input[type="email"] {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-gray-medium);
+  background: rgba(10, 25, 41, 0.6);
+  color: var(--color-white);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.ddjj-field input[type="text"]:focus,
+.ddjj-field input[type="email"]:focus {
+  border-color: var(--color-accent);
+  background: rgba(8, 145, 178, 0.05);
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+}
+
+.ddjj-field input.error {
+  border-color: #fc8181;
+}
+
+.ddjj-error {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #fc8181;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* FILE INPUT */
+.ddjj-file-wrapper {
+  position: relative;
+  border-radius: 0.5rem;
+  border: 1px dashed var(--color-gray-medium);
+  background: rgba(10, 25, 41, 0.6);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.ddjj-file-wrapper:hover {
+  border-color: var(--color-accent);
+  background: rgba(8, 145, 178, 0.05);
+}
+
+.ddjj-file-wrapper.error {
+  border-color: #fc8181;
+}
+
+.ddjj-file-wrapper.has-file {
+  border-style: solid;
+  border-color: var(--color-accent);
+  background: rgba(8, 145, 178, 0.07);
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+}
+
+.ddjj-file-wrapper input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.ddjj-file-label {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-gray-medium);
+  pointer-events: none;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.ddjj-file-wrapper.has-file .ddjj-file-label {
+  color: var(--color-accent-light);
+}
+
+/* NOTE */
+.ddjj-note {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-gray-medium);
+  margin-block-start: calc(var(--space-xs) * -1);
+}
+
+/* BUTTON */
+.ddjj-btn {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.875rem 2.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-white);
+  cursor: pointer;
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+}
+
+.ddjj-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ddjj-btn:hover:not(:disabled)::after {
+  opacity: 1;
+}
+
+.ddjj-btn:hover:not(:disabled) {
+  background: var(--color-accent-light);
+  transform: translateY(-1px);
+}
+
+.ddjj-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.ddjj-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SUCCESS */
+.ddjj-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  text-align: center;
+  max-width: 500px;
+  padding: var(--space-l);
+  border: 1px solid var(--color-accent);
+  border-radius: 1rem;
+  background: rgba(8, 145, 178, 0.05);
+  animation: formEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ddjj-success-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--color-white);
+  animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.ddjj-success h4 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-white);
+}
+
+.ddjj-success p {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-gray-light);
+  line-height: 1.6;
+}
+
+.ddjj-success .ddjj-btn {
+  margin-block-start: var(--space-xs);
+  align-self: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .ddjj-form {
+    padding: var(--space-m);
+  }
+
+  .ddjj-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ddjj-btn {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+@media (max-width: 726px) {
+    .ddjj-section.container {
+    padding-inline: var(--space-mm);
+  }
+}
+
+@media (max-width: 510px) {
+  .ddjj-section.container {
+    padding-inline: var(--space-ss);
+  }
 }

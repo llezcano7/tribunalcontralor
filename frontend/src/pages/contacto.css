@@ -1,0 +1,38 @@
+.contact-inicio {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.contact-inicio h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-accent-light);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: glow 3s ease-in-out infinite;
+  text-align: center;
+}
+
+.contact-inicio h4 {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: var(--color-gray-light);
+  max-width: 800px;
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
+}
+
+.contact-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+  margin-block-start: var(--space-l);
+}

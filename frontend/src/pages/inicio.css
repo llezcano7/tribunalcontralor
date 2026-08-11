@@ -37,7 +37,7 @@
 
 .title-accent {
   display: block;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
   font-weight: 400;
   color: var(--color-accent-light);
   margin-top: 0.5rem;
@@ -139,7 +139,7 @@
   flex-direction: column;
   gap: var(--space-m);
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.1;
@@ -155,9 +155,9 @@
 
 .aboutus p {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   color: var(--color-gray-light);
-  max-width: 800px;
+  max-width: 920px;
   line-height: 1.6;
   font-weight: 400;
   text-align: justify;
@@ -432,7 +432,7 @@
 .staff h3 {
   text-align: center;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.1;
@@ -538,7 +538,7 @@
 
 .modal-content h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
 }
 
@@ -553,7 +553,7 @@
 .modal-content p {
   white-space: pre-line;
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2vh, 1.25rem);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   font-weight: 400;
 }
 
@@ -647,7 +647,7 @@
 
 .findus h3 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-white);
   line-height: 1.1;
@@ -677,23 +677,13 @@
 
 .contact-inicio h3 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-accent-light);
   line-height: 1.1;
   letter-spacing: -0.02em;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   animation: glow 3s ease-in-out infinite;
-  text-align: center;
-}
-
-.contact-inicio h4 {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--color-gray-light);
-  max-width: 800px;
-  line-height: 1.6;
-  font-weight: 400;
   text-align: center;
 }
 

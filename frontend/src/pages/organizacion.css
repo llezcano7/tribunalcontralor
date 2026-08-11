@@ -6,7 +6,7 @@
 
 .organizacion-title h3 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-accent-light);
   animation: glow 3s ease-in-out infinite;
@@ -64,7 +64,7 @@
 
 .organizacion-content p {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   color: var(--color-text);
   line-height: 1.6;
 }

@@ -3,265 +3,272 @@ import "./informacionpublica.css";
 
 const WP_API = "https://contralorbariloche.gob.ar/wp-json/wp/v2";
 
-const SECCIONES = [
+const SECTIONS = [
   { label: "Resoluciones", endpoint: "resoluciones" },
   { label: "Sentencias", endpoint: "sentencias" },
   { label: "Informes", endpoint: "informes" },
   { label: "Estados Contables", endpoint: "estados-contables" },
 ];
 
-const AÑOS = Array.from({ length: 2026 - 2008 + 1 }, (_, i) => 2026 - i);
-const POR_PAGINA = 20;
-const MAX_HISTORIAL = 6;
+const YEARS = Array.from({ length: 2026 - 2008 + 1 }, (_, i) => 2026 - i);
+const PER_PAGE = 20;
+const MAX_HISTORY = 6;
 
 export default function InformacionPublica() {
-  const [seccion, setSeccion] = useState(SECCIONES[0]);
-  const [anio, setAnio] = useState(2026);
-  const [inputBusqueda, setInputBusqueda] = useState("");
-  const [busquedaActiva, setBusquedaActiva] = useState("");
-  const [historial, setHistorial] = useState(() => {
+  const [section, setSection] = useState(SECTIONS[0]);
+  const [year, setYear] = useState(2026);
+  const [searchInput, setSearchInput] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
+  const [history, setHistory] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("busqueda_historial")) || [];
+      return JSON.parse(localStorage.getItem("search_history")) || [];
     } catch {
       return [];
     }
   });
-  const [mostrarHistorial, setMostrarHistorial] = useState(false);
-  const [documentos, setDocumentos] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [documents, setDocuments] = useState([]);
   const [total, setTotal] = useState(0);
-  const [pagina, setPagina] = useState(1);
-  const [cargando, setCargando] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const busquedaRef = useRef(null);
+  const searchRef = useRef(null);
 
-  // Resetear página al cambiar filtros
+  // Reset page on filter change
   useEffect(() => {
-    setPagina(1);
-  }, [seccion, anio, busquedaActiva]);
+    setPage(1);
+  }, [section, year, activeSearch]);
 
-  // Fetch documentos
+  // Fetch documents
   useEffect(() => {
-    const fetchDocumentos = async () => {
-      setCargando(true);
+    const fetchDocuments = async () => {
+      setLoading(true);
       setError(null);
       try {
-        let url = `${WP_API}/${seccion.endpoint}?acf_format=standard&per_page=${POR_PAGINA}&page=${pagina}&meta_key=anio&meta_value=${anio}&orderby=title&order=asc`;
-        if (busquedaActiva) url += `&search=${encodeURIComponent(busquedaActiva)}`;
+        let url = `${WP_API}/${section.endpoint}?acf_format=standard&per_page=${PER_PAGE}&page=${page}&orderby=title&order=asc`;
+
+        if (activeSearch) {
+          url += `&search=${encodeURIComponent(activeSearch)}`;
+        } else {
+          url += `&meta_key=anio&meta_value=${year}`;
+        }
 
         const res = await fetch(url);
-        if (!res.ok) throw new Error("Error al obtener documentos");
+        if (!res.ok) throw new Error("Error fetching documents");
         setTotal(Number(res.headers.get("X-WP-Total")) || 0);
-        setDocumentos(await res.json());
+        setDocuments(await res.json());
       } catch {
         setError("No se pudieron cargar los documentos. Intentá de nuevo.");
-        setDocumentos([]);
+        setDocuments([]);
       } finally {
-        setCargando(false);
+        setLoading(false);
       }
     };
-    fetchDocumentos();
-  }, [seccion, anio, busquedaActiva, pagina]);
+    fetchDocuments();
+  }, [section, year, activeSearch, page]);
 
-  // Cerrar historial al click afuera
+  // Close history on outside click
   useEffect(() => {
-    const handleClick = (e) => {
-      if (busquedaRef.current && !busquedaRef.current.contains(e.target)) {
-        setMostrarHistorial(false);
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowHistory(false);
       }
     };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const guardarHistorial = (termino) => {
-    if (!termino.trim()) return;
-    const nuevo = [termino, ...historial.filter((h) => h !== termino)].slice(0, MAX_HISTORIAL);
-    setHistorial(nuevo);
-    localStorage.setItem("busqueda_historial", JSON.stringify(nuevo));
+  const saveHistory = (term) => {
+    if (!term.trim()) return;
+    const updated = [term, ...history.filter((h) => h !== term)].slice(0, MAX_HISTORY);
+    setHistory(updated);
+    localStorage.setItem("search_history", JSON.stringify(updated));
   };
 
-  const handleBuscar = () => {
-    const termino = inputBusqueda.trim();
-    guardarHistorial(termino);
-    setBusquedaActiva(termino);
-    setInputBusqueda("");
-    setMostrarHistorial(false);
+  const handleSearch = () => {
+    const term = searchInput.trim();
+    saveHistory(term);
+    setActiveSearch(term);
+    setSearchInput("");
+    setShowHistory(false);
   };
 
-  const handleHistorialClick = (termino) => {
-    guardarHistorial(termino);
-    setBusquedaActiva(termino);
-    setInputBusqueda("");
-    setMostrarHistorial(false);
+  const handleHistoryClick = (term) => {
+    saveHistory(term);
+    setActiveSearch(term);
+    setSearchInput("");
+    setShowHistory(false);
   };
 
-  const handleLimpiarBusqueda = () => {
-    setBusquedaActiva("");
-    setInputBusqueda("");
+  const handleClearSearch = () => {
+    setActiveSearch("");
+    setSearchInput("");
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleBuscar();
-    if (e.key === "Escape") setMostrarHistorial(false);
+    if (e.key === "Enter") handleSearch();
+    if (e.key === "Escape") setShowHistory(false);
   };
 
-  const totalPaginas = Math.ceil(total / POR_PAGINA);
+  const totalPages = Math.ceil(total / PER_PAGE);
 
   return (
-    <main className="infpub block-start">
-      <div className="container">
+    <section className="infpub-section container block-start">
 
-        <header className="infpub__header">
-          <h1 className="infpub__titulo uppercase">Información Pública</h1>
-          <p className="infpub__subtitulo">
-            Accedé a los documentos oficiales del Tribunal Contralor de San Carlos de Bariloche.
-          </p>
-        </header>
+      <div className="infpub-wrapper">
+        <div className="infpub-title">
+          <h3>Información Pública</h3>
+          <p>Accedé a los documentos oficiales del Tribunal Contralor de San Carlos de Bariloche.</p>
+        </div>
 
-        <div className="infpub__filtros">
-          <div className="infpub__secciones">
-            {SECCIONES.map((s) => (
+        <div className="infpub-filter">
+          <div className="infpub-sections">
+            {SECTIONS.map((s) => (
               <button
                 key={s.endpoint}
-                className={`infpub__seccion-btn ${seccion.endpoint === s.endpoint ? "activo" : ""}`}
-                onClick={() => { setSeccion(s); handleLimpiarBusqueda(); }}
+                className={`infpub-section-btn ${section.endpoint === s.endpoint ? "active" : ""}`}
+                onClick={() => { setSection(s); handleClearSearch(); }}
               >
                 {s.label}
               </button>
             ))}
           </div>
 
-          <div className="infpub__anio-wrapper">
-            <label className="infpub__anio-label" htmlFor="selector-anio">Año</label>
+          <div className="infpub-year-wrapper">
+            <label className="infpub-year-label" htmlFor="selector-year">Año</label>
             <select
-              id="selector-anio"
-              className="infpub__anio-select"
-              value={anio}
-              onChange={(e) => setAnio(Number(e.target.value))}
+              id="selector-year"
+              className="infpub-year-select"
+              value={year}
+              onChange={(e) => setYear(Number(e.target.value))}
             >
-              {AÑOS.map((a) => (
-                <option key={a} value={a}>{a}</option>
+              {YEARS.map((y) => (
+                <option key={y} value={y}>{y}</option>
               ))}
             </select>
           </div>
         </div>
-
-        {/* BUSCADOR */}
-        <div className="infpub__buscador-wrapper" ref={busquedaRef}>
-          <div className="infpub__buscador">
-            <input
-              type="text"
-              className="infpub__buscador-input"
-              placeholder="Buscar por nombre..."
-              value={inputBusqueda}
-              onChange={(e) => setInputBusqueda(e.target.value)}
-              onFocus={() => setMostrarHistorial(historial.length > 0)}
-              onKeyDown={handleKeyDown}
-            />
-            <button className="infpub__buscador-btn" onClick={handleBuscar}>
-              Buscar
-            </button>
-          </div>
-
-          {/* HISTORIAL */}
-          {mostrarHistorial && historial.length > 0 && (
-            <ul className="infpub__historial">
-              {historial.map((termino, i) => (
-                <li
-                  key={i}
-                  className="infpub__historial-item"
-                  onClick={() => handleHistorialClick(termino)}
-                >
-                  <span className="infpub__historial-icono">↺</span>
-                  {termino}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* BÚSQUEDA ACTIVA */}
-        {busquedaActiva && (
-          <div className="infpub__busqueda-activa">
-            <span>Buscando: <strong>"{busquedaActiva}"</strong></span>
-            <button className="infpub__limpiar-btn" onClick={handleLimpiarBusqueda}>
-              ✕ Limpiar búsqueda
-            </button>
-          </div>
-        )}
-
-        <div className="infpub__resultados-info">
-          {!cargando && !error && (
-            <span>{total} documento{total !== 1 ? "s" : ""} encontrado{total !== 1 ? "s" : ""} en {seccion.label} — {anio}</span>
-          )}
-        </div>
-
-        <div className="infpub__lista-wrapper">
-          {cargando && (
-            <div className="infpub__estado">
-              <div className="infpub__spinner" />
-              <span>Cargando documentos...</span>
-            </div>
-          )}
-
-          {error && !cargando && (
-            <div className="infpub__estado infpub__estado--error">
-              <span>{error}</span>
-            </div>
-          )}
-
-          {!cargando && !error && documentos.length === 0 && (
-            <div className="infpub__estado">
-              <span>No hay documentos disponibles para {seccion.label} en {anio}{busquedaActiva ? ` con "${busquedaActiva}"` : ""}.</span>
-            </div>
-          )}
-
-          {!cargando && !error && documentos.length > 0 && (
-            <ul className="infpub__lista">
-              {documentos.map((doc) => (
-                <li key={doc.id} className="infpub__item">
-                  <a
-                    href={doc.acf?.archivo_pdf || "#"}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="infpub__link"
-                  >
-                    <span className="infpub__icono">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                      </svg>
-                    </span>
-                    <span className="infpub__nombre">{doc.title?.rendered}</span>
-                    <span className="infpub__descargar">Ver PDF →</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {totalPaginas > 1 && !cargando && (
-          <div className="infpub__paginacion">
-            <button
-              className="infpub__pag-btn"
-              onClick={() => setPagina((p) => Math.max(p - 1, 1))}
-              disabled={pagina === 1}
-            >
-              ← Anterior
-            </button>
-            <span className="infpub__pag-info">Página {pagina} de {totalPaginas}</span>
-            <button
-              className="infpub__pag-btn"
-              onClick={() => setPagina((p) => Math.min(p + 1, totalPaginas))}
-              disabled={pagina === totalPaginas}
-            >
-              Siguiente →
-            </button>
-          </div>
-        )}
-
       </div>
-    </main>
+
+      {/* SEARCH */}
+      <div className="infpub-searcher-wrapper" ref={searchRef}>
+        <div className="infpub-searcher">
+          <input
+            type="text"
+            className="infpub-searcher-input"
+            placeholder="Buscar por nombre..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onFocus={() => setShowHistory(history.length > 0)}
+            onKeyDown={handleKeyDown}
+          />
+          <button className="infpub-searcher-btn" onClick={handleSearch}>
+            Buscar
+          </button>
+        </div>
+
+        {/* HISTORY */}
+        {showHistory && history.length > 0 && (
+          <ul className="infpub-history">
+            {history.map((term, i) => (
+              <li
+                key={i}
+                className="infpub-history-item"
+                onClick={() => handleHistoryClick(term)}
+              >
+                <span className="infpub-history-icon">↺</span>
+                {term}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* ACTIVE SEARCH TAG */}
+      {activeSearch && (
+        <div className="infpub-search-active">
+          <span>Buscando: <strong>"{activeSearch}"</strong></span>
+          <button className="infpub-clear-btn" onClick={handleClearSearch}>
+            ✕ Limpiar búsqueda
+          </button>
+        </div>
+      )}
+
+      <div className="infpub-results-info">
+        {!loading && !error && (
+          <span>
+            {total} documento{total !== 1 ? "s" : ""} encontrado{total !== 1 ? "s" : ""} en {section.label}{activeSearch ? ` — "${activeSearch}"` : ` — ${year}`}
+          </span>
+        )}
+      </div>
+
+      <div className="infpub-list-wrapper">
+        {loading && (
+          <div className="infpub-state">
+            <div className="infpub-spinner" />
+            <span>Cargando documentos...</span>
+          </div>
+        )}
+
+        {error && !loading && (
+          <div className="infpub-state infpub-state-error">
+            <span>{error}</span>
+          </div>
+        )}
+
+        {!loading && !error && documents.length === 0 && (
+          <div className="infpub-state">
+            <span>
+              No hay documentos disponibles para {section.label}{activeSearch ? ` con "${activeSearch}"` : ` en ${year}`}.
+            </span>
+          </div>
+        )}
+
+        {!loading && !error && documents.length > 0 && (
+          <ul className="infpub-list">
+            {documents.map((doc) => (
+              <li key={doc.id} className="infpub-item">
+                <a
+                  href={doc.acf?.archivo_pdf || "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="infpub-link"
+                >
+                  <span className="infpub-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                  </span>
+                  <span className="infpub-name">{doc.title?.rendered}</span>
+                  <span className="infpub-download">Ver PDF →</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {totalPages > 1 && !loading && (
+        <div className="infpub-pagination">
+          <button
+            className="infpub-page-btn"
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+          >
+            ← Anterior
+          </button>
+          <span className="infpub-page-info">Página {page} de {totalPages}</span>
+          <button
+            className="infpub-page-btn"
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages}
+          >
+            Siguiente →
+          </button>
+        </div>
+      )}
+
+    </section>
   );
 }
