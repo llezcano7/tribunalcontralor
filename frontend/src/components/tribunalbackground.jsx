@@ -1,5 +1,5 @@
 import React from 'react';
-import './tribunalBackground.css';
+import './tribunalbackground.css';
 
 const TribunalBackground = ({children}) => {
   return (
