@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import tribunalbackground from '../components/tribunalbackground';
+import TribunalBackground from '../components/tribunalbackground';
 import { MdEmail } from 'react-icons/md';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { FaPhoneVolume } from 'react-icons/fa6';
 import { MdWorkHistory } from 'react-icons/md';
-import map from '../components/map'
+import MapComponent from '../components/map'
 import Cazaux from "../assets/images/Foto-Estanislao-Cazaux.jpg";
 import Romero from "../assets/images/Foto-Esteban-Romero.jpg";
 import Vila from "../assets/images/Foto-Damian-Alberto-Vila.jpg";
