@@ -89,7 +89,7 @@ export default function Inicio() {
 
             {/* ABOUTUS-SECTION */}
 
-            <section className='aboutus block-start flex'>
+            <section className='aboutus container block-start flex'>
                 <div className='aboutus-content'>
                     <div className='aboutus-title'>
                         <h3>Nuestra <span className='uppercase'>historia</span> </h3>
