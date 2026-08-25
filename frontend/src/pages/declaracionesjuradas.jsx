@@ -39,21 +39,45 @@ export default function DeclaracionesJuradas() {
     if (!form.email.trim()) newErrors.email = "El email es obligatorio.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = "El email no es válido.";
     if (!form.legajo.trim()) newErrors.legajo = "El número de legajo es obligatorio.";
-    if (!form.pdf1) newErrors.pdf1 = "El primer PDF es obligatorio.";
+    if (!form.pdf1) newErrors.pdf1 = "El PDF es obligatorio.";
+    if (!form.pdf2) newErrors.pdf2 = "El PDF es obligatorio.";
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    setStatus("sending");
-    // Backend integration pending
-    setTimeout(() => setStatus("success"), 1500);
-  };
+  e.preventDefault();
+  const newErrors = validate();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+  setStatus("sending");
+  {status === "error" && (
+  <p className="ddjj-error">
+    Hubo un error al enviar la documentación. Intentalo de nuevo.
+  </p>
+)}
+
+  try {
+    const formData = new FormData();
+    formData.append("nombre", form.nombre);
+    formData.append("apellido", form.apellido);
+    formData.append("email", form.email);
+    formData.append("legajo", form.legajo);
+    if (form.pdf1) formData.append("pdf1", form.pdf1);
+    if (form.pdf2) formData.append("pdf2", form.pdf2);
+
+    const res = await fetch("http://localhost:3001/api/declaraciones-juradas", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Error en el servidor");
+    setStatus("success");
+  } catch {
+    setStatus("error");
+  }
+};
 
   const handleReset = () => {
     setForm(INITIAL_FORM);
@@ -172,7 +196,7 @@ export default function DeclaracionesJuradas() {
             </div>
 
             <div className="ddjj-field">
-              <label htmlFor="pdf2">Documentación adicional (PDF, opcional)</label>
+              <label htmlFor="pdf2">Documentación adicional (PDF) <span className="ddjj-required">*</span></label>
               <div className={`ddjj-file-wrapper ${errors.pdf2 ? "error" : ""} ${form.pdf2 ? "has-file" : ""}`}>
                 <input
                   id="pdf2"

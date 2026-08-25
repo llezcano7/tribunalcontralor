@@ -38,7 +38,7 @@ export default function Header() {
                 <div className='header-icons'>
                     <p><IoLocation className='email-icon' />Edificio ex aduana, Centro Cívico</p>
                     <p><IoAtOutline className='email-icon' />tribunalcontralormscb@gmail.com</p>
-                    <p><IoIosPhonePortrait className='phone-icon' />0294-428679</p>
+                    <p><IoIosPhonePortrait className='phone-icon' />2944 60-3377</p>
                 </div>
             </div>
             <header className='header-section container' ref={navRef}>

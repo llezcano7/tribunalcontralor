@@ -10,6 +10,7 @@ import InformacionPublica from '../src/pages/informacionpublica';
 import DeclaracionesJuradas from '../src/pages/declaracionesjuradas';
 import Institucional from '../src/pages/institucional';
 import Contacto from '../src/pages/contacto';
+import WhatsappButton from './components/whatsappbtn';
 import './reset.css';
 import './library.css'
 
@@ -29,6 +30,7 @@ function App() {
           <Route path='/contacto' element={<Contacto />} />
         </Routes>
         <Footer />
+        <WhatsappButton />
       </BrowserRouter>
     </>
   )
