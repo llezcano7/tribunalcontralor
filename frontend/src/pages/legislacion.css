@@ -31,7 +31,7 @@
 
 .legislacion-title p {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
   color: var(--color-gray-light);
   text-align: center;
   margin-block-start: var(--space-s);

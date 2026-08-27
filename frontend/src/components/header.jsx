@@ -65,6 +65,7 @@ export default function Header() {
                         )}
                     </div>
                     <Link to="/declaracionesjuradas" onClick={closeMenu}>Declaraciones Juradas</Link>
+                    <Link to="/novedades" onClick={closeMenu}>Novedades</Link>
                     <Link to="/contacto" onClick={closeMenu}>Contacto</Link>
                 </nav>
                 <button className="hamburger" onClick={toggleMenu}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import Footer from './components/footer';
@@ -9,6 +8,8 @@ import Legislacion from '../src/pages/legislacion';
 import InformacionPublica from '../src/pages/informacionpublica';
 import DeclaracionesJuradas from '../src/pages/declaracionesjuradas';
 import Institucional from '../src/pages/institucional';
+import Novedades from '../src/pages/novedades';
+import Novedad from '../src/pages/novedad';
 import Contacto from '../src/pages/contacto';
 import WhatsappButton from './components/whatsappbtn';
 import './reset.css';
@@ -27,6 +28,8 @@ function App() {
           <Route path='/informacionpublica' element={<InformacionPublica />} />
           <Route path='/declaracionesjuradas' element={<DeclaracionesJuradas />} />
           <Route path='/institucional' element={<Institucional />} />
+          <Route path='/novedades' element={<Novedades />} />
+          <Route path='/novedades/:id' element={<Novedad />} />
           <Route path='/contacto' element={<Contacto />} />
         </Routes>
         <Footer />

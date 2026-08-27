@@ -1,0 +1,88 @@
+/* ================================
+   DETALLE DE NOVEDAD
+   ================================ */
+
+.novedades-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-l);
+}
+
+.novedades-back-btn {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  background: none;
+  color: var(--color-gray-light);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-block-end: var(--space-l);
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.novedades-back-btn:hover {
+  color: var(--color-accent);
+}
+
+.novedades-detail {
+  max-width: 900px;
+  animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.novedades-detail-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.novedades-detail-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-white);
+  line-height: 1.3;
+}
+
+.novedades-detail-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-gray-light);
+  line-height: 1.8;
+  margin-block-start: var(--space-s);
+}
+
+.novedades-detail-content p {
+  margin-block-end: var(--space-s);
+}
+
+.novedades-detail-content h2,
+.novedades-detail-content h3 {
+  font-family: var(--font-display);
+  color: var(--color-white);
+  margin-block: var(--space-m) var(--space-xs);
+}
+
+.novedades-detail-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.novedades-detail-content img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  display: block;
+  margin-inline: auto;
+  margin-block: var(--space-s);
+}
