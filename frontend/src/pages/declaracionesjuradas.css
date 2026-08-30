@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-ss);
+  gap: var(--space-s);
   max-width: 1200px;
   text-align: center;
 }
@@ -24,10 +24,12 @@
 }
 
 .ddjj-title p {
+  max-width: 1000px;
   font-family: var(--font-body);
   font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--color-gray-light);
   text-align: center;
+  line-height: 1.6;
 }
 
 .ddjj-form {
@@ -349,5 +351,9 @@
 @media (max-width: 510px) {
   .ddjj-section.container {
     padding-inline: var(--space-ss);
+  }
+  
+  .ddjj-success {
+    padding: var(--space-m);
   }
 }

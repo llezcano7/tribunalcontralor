@@ -7,7 +7,8 @@
 .infpub-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  gap: var(--space-m)
+
 }
 
 .infpub-title {
@@ -15,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs)
 }
 
 .infpub-title h3 {

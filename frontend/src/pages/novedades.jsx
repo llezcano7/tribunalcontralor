@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./novedades.css";
 
-const WP_API = "https://contralorbariloche.gob.ar/wp-json/wp/v2";
+const WP_API = import.meta.env.VITE_WP_API;
 const PER_PAGE = 9;
 
 const formatDate = (dateString) => {

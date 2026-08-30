@@ -2,13 +2,13 @@
    DETALLE DE NOVEDAD
    ================================ */
 
-.novedades-section {
+.novedad-section {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-l);
+  gap: var(--space-s);
 }
 
 .novedades-back-btn {
@@ -45,7 +45,7 @@
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   color: var(--color-white);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .novedades-detail-content {
@@ -84,4 +84,40 @@
   display: block;
   margin-inline: auto;
   margin-block: var(--space-s);
+}
+
+.novedades-related {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-m);
+}
+
+.novedades-related h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-accent-light);
+  animation: glow 3s ease-in-out infinite;
+  text-align: center;
+  margin-block-end: var(--space-s);
+}
+
+/*################ RESPONSIVE DESIGN ################*/
+
+@media (max-width: 726px) {
+  .novedad-section.container {
+    padding-inline: var(--space-m);
+  }
+}
+
+@media (max-width: 510px) {
+  .novedad-section.container {
+    padding-inline: var(--space-ss);
+  }
+
+  .novedades-grid{
+    grid-template-columns: 1fr;
+  }
 }

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./novedades.css";
 import "./novedad.css";
 
-const WP_API = "https://contralorbariloche.gob.ar/wp-json/wp/v2";
+const WP_API = import.meta.env.VITE_WP_API;
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("es-AR", {
@@ -58,11 +58,7 @@ export default function Novedad() {
   };
 
   return (
-    <section className="novedades-section container block-start">
-
-        <button className="novedades-back-btn" onClick={() => navigate("/novedades")}>
-          ← Volver a novedades
-        </button>
+    <section className="novedad-section container block-start">
 
         {loading && (
           <div className="novedades-state">
@@ -97,7 +93,7 @@ export default function Novedad() {
         {/* OTRAS NOVEDADES */}
         {related.length > 0 && !loading && (
           <div className="novedades-related">
-            <h2 className="novedades-related-title">Otras novedades</h2>
+            <h3>Otras novedades</h3>
             <div className="novedades-grid">
               {related.map((item) => {
                 const image = getImage(item);

@@ -64,7 +64,7 @@ export default function Header() {
                             </ul>
                         )}
                     </div>
-                    <Link to="/declaracionesjuradas" onClick={closeMenu}>Declaraciones Juradas</Link>
+                    <Link to="/declaracionesjuradas" onClick={closeMenu}>DDJJ</Link>
                     <Link to="/novedades" onClick={closeMenu}>Novedades</Link>
                     <Link to="/contacto" onClick={closeMenu}>Contacto</Link>
                 </nav>

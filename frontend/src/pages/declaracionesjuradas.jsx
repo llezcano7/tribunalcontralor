@@ -45,40 +45,34 @@ export default function DeclaracionesJuradas() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const newErrors = validate();
-  if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
-    return;
-  }
-  setStatus("sending");
-  {status === "error" && (
-  <p className="ddjj-error">
-    Hubo un error al enviar la documentación. Intentalo de nuevo.
-  </p>
-)}
+    e.preventDefault();
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setStatus("sending");
 
-  try {
-    const formData = new FormData();
-    formData.append("nombre", form.nombre);
-    formData.append("apellido", form.apellido);
-    formData.append("email", form.email);
-    formData.append("legajo", form.legajo);
-    if (form.pdf1) formData.append("pdf1", form.pdf1);
-    if (form.pdf2) formData.append("pdf2", form.pdf2);
+    try {
+      const formData = new FormData();
+      formData.append("nombre", form.nombre);
+      formData.append("apellido", form.apellido);
+      formData.append("email", form.email);
+      formData.append("legajo", form.legajo);
+      if (form.pdf1) formData.append("pdf1", form.pdf1);
+      if (form.pdf2) formData.append("pdf2", form.pdf2);
 
-    const res = await fetch("http://localhost:3001/api/declaraciones-juradas", {
-      method: "POST",
-      body: formData,
-    });
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/declaraciones-juradas`, {
+        method: "POST",
+        body: formData,
+      });
 
-    if (!res.ok) throw new Error("Error en el servidor");
-    setStatus("success");
-  } catch {
-    setStatus("error");
-  }
-};
-
+      if (!res.ok) throw new Error("Error en el servidor");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  };
   const handleReset = () => {
     setForm(INITIAL_FORM);
     setErrors({});
@@ -86,6 +80,8 @@ export default function DeclaracionesJuradas() {
     // Reset file inputs manually
     document.querySelectorAll('input[type="file"]').forEach((el) => (el.value = ""));
   };
+
+  console.log(import.meta.env.VITE_BACKEND_URL);
 
   return (
     <section className="ddjj-section container block-start">
@@ -178,7 +174,7 @@ export default function DeclaracionesJuradas() {
           <div className="ddjj-row">
             <div className="ddjj-field">
               <label htmlFor="pdf1">
-                Declaración Jurada (PDF) <span className="ddjj-required">*</span>
+                Anexo público (PDF) <span className="ddjj-required">*</span>
               </label>
               <div className={`ddjj-file-wrapper ${errors.pdf1 ? "error" : ""} ${form.pdf1 ? "has-file" : ""}`}>
                 <input
@@ -189,14 +185,14 @@ export default function DeclaracionesJuradas() {
                   onChange={handleFile}
                 />
                 <span className="ddjj-file-label">
-                  {form.pdf1 ? `📄 ${form.pdf1.name}` : "Seleccionar archivo PDF"}
+                  {form.pdf1 ? `📄 ${form.pdf1.name}` : "📂 Seleccionar Anexo Público (PDF)"}
                 </span>
               </div>
               {errors.pdf1 && <span className="ddjj-error">{errors.pdf1}</span>}
             </div>
 
             <div className="ddjj-field">
-              <label htmlFor="pdf2">Documentación adicional (PDF) <span className="ddjj-required">*</span></label>
+              <label htmlFor="pdf2">Anexo reservado (PDF) <span className="ddjj-required">*</span></label>
               <div className={`ddjj-file-wrapper ${errors.pdf2 ? "error" : ""} ${form.pdf2 ? "has-file" : ""}`}>
                 <input
                   id="pdf2"
@@ -206,7 +202,7 @@ export default function DeclaracionesJuradas() {
                   onChange={handleFile}
                 />
                 <span className="ddjj-file-label">
-                  {form.pdf2 ? `📄 ${form.pdf2.name}` : "Seleccionar archivo PDF"}
+                  {form.pdf2 ? `📄 ${form.pdf2.name}` : "📂 Seleccionar Anexo Reservado (PDF)"}
                 </span>
               </div>
               {errors.pdf2 && <span className="ddjj-error">{errors.pdf2}</span>}

@@ -56,38 +56,35 @@ const ContactForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const newErrors = validateForm();
+  const newErrors = validateForm();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+  setIsSubmitting(true);
 
-    setIsSubmitting(true);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contacto`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setSubmitSuccess(true);
-      setIsSubmitting(false);
+    if (!res.ok) throw new Error("Error en el servidor");
 
-      // Reset form
-      setFormData({
-        nombre: '',
-        email: '',
-        telefono: '',
-        asunto: '',
-        mensaje: ''
-      });
+    setSubmitSuccess(true);
+    setFormData({ nombre: "", email: "", telefono: "", asunto: "", mensaje: "" });
+    setTimeout(() => setSubmitSuccess(false), 5000);
 
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 5000);
-    }, 1500);
-  };
+  } catch {
+    setErrors({ general: "Hubo un error al enviar. Intentá de nuevo." });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="contact-container">

@@ -10,9 +10,11 @@ import Cazaux from "../assets/images/Foto-Estanislao-Cazaux.jpg";
 import Romero from "../assets/images/Foto-Esteban-Romero.jpg";
 import Vila from "../assets/images/Foto-Damian-Alberto-Vila.jpg";
 import ContactForm from '../components/ContactForm';
+import { useNavigate } from 'react-router-dom';
 import './inicio.css';
 
 export default function Inicio() {
+    const navigate = useNavigate();
     useEffect(() => {
         const handleEsc = (e) => {
             if (e.key === "Escape") {
@@ -24,6 +26,14 @@ export default function Inicio() {
         return () => window.removeEventListener("keydown", handleEsc);
     }, []);
 
+    const [latestPosts, setLatestPosts] = useState([]);
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_WP_API}/posts?_embed&per_page=3&orderby=date&order=desc`)
+            .then((res) => res.json())
+            .then(setLatestPosts)
+            .catch(() => setLatestPosts([]));
+    }, []);
 
     const [selected, setSelected] = useState(null);
 
@@ -80,8 +90,10 @@ export default function Inicio() {
                             Transparencia, control y responsabilidad en la gestión pública
                         </p>
                         <div className='hero-actions'>
-                            <button className='btn btn-primary'>Consultas Públicas</button>
-                            <button className='btn btn-secondary'>Informes y Auditorías</button>
+                            <button className="btn btn-primary" onClick={() => navigate("/contacto")}>
+                                Consultas Públicas
+                            </button>
+                            <button className="btn btn-secondary" onClick={() => navigate("/informacionpublica")}>Informes y Resoluciones</button>
                         </div>
                     </div>
                 </section>
@@ -152,6 +164,44 @@ export default function Inicio() {
                 </div>
 
             </section>
+
+            {/* NOVEDADES-SECTION */}
+            {latestPosts.length > 0 && (
+                <section className="inicio-novedades container block-start">
+                    <h3>Últimas novedades</h3>
+                    <p>Descubrí las últimas actualizaciones y noticias de nuestra institución</p>
+                    <div className="novedades-grid">
+                        {latestPosts.map((post) => {
+                            const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
+                            const excerpt = post.excerpt?.rendered.replace(/<[^>]*>/g, "") || "";
+                            return (
+                                <article key={post.id} className="novedades-card">
+                                    {image && (
+                                        <div className="novedades-card-image">
+                                            <img src={image} alt={post.title?.rendered} loading="lazy" />
+                                        </div>
+                                    )}
+                                    <div className="novedades-card-body">
+                                        <time className="novedades-card-date">
+                                            {new Date(post.date).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })}
+                                        </time>
+                                        <h2 className="novedades-card-title" dangerouslySetInnerHTML={{ __html: post.title?.rendered }} />
+                                        <p className="novedades-card-excerpt">{excerpt}</p>
+                                        <button className="novedades-card-btn" onClick={() => navigate(`/novedades/${post.id}`)}>
+                                            Leer más →
+                                        </button>
+                                    </div>
+                                </article>
+                            );
+                        })}
+                    </div>
+                    <div className="inicio-novedades-footer">
+                        <button className="btn btn-secondary" onClick={() => navigate("/novedades")}>
+                            Ver todas las novedades
+                        </button>
+                    </div>
+                </section>
+            )}
 
             {/* FINDUS-SECTION */}
 

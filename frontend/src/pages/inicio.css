@@ -635,6 +635,41 @@
 }
 
 
+/*NOVEDADES SECTION*/
+
+.inicio-novedades {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
+.inicio-novedades h3 {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--color-white);
+}
+
+.inicio-novedades p {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  color: var(--color-gray-light);
+  max-width: 800px;
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
+  margin-block-end: var(--space-s);
+}
+
+.inicio-novedades-footer {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-l);
+}
+
+
 /*FIND US SECTION*/
 
 
@@ -673,7 +708,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: var(--space-s)
 }
 
 .contact-inicio h3 {

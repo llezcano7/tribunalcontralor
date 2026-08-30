@@ -56,6 +56,11 @@
   font-weight: 400;
 }
 
+.navigator a:hover {
+  color: var(--color-accent-light);
+  animation: 1.5 ease-in-out infinite;
+}
+
 .hamburger {
   position: relative;
   display: none;

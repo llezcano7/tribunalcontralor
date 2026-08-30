@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./informacionpublica.css";
 
-const WP_API = "https://contralorbariloche.gob.ar/wp-json/wp/v2";
+const WP_API = import.meta.env.VITE_WP_API;
 
 const SECTIONS = [
   { label: "Resoluciones", endpoint: "resoluciones" },
