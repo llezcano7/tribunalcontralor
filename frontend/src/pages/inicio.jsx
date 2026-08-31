@@ -169,7 +169,7 @@ export default function Inicio() {
             {latestPosts.length > 0 && (
                 <section className="inicio-novedades container block-start">
                     <h3>Últimas novedades</h3>
-                    <p>Descubrí las últimas actualizaciones y noticias de nuestra institución</p>
+                    <span>Descubrí las últimas actualizaciones y noticias de nuestra institución</span>
                     <div className="novedades-grid">
                         {latestPosts.map((post) => {
                             const image = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;

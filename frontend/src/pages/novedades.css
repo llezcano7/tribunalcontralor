@@ -24,9 +24,9 @@
 
 .novedades-title p {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--color-gray-light);
-  text-align: center;
+  text-align: start;
   margin-block-end: var(--space-s);
 }
 
