@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-s);
+  margin-block-end: var(--space-xxl);
 }
 
 .novedades-back-btn {

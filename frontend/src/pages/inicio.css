@@ -708,7 +708,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-s)
+  gap: var(--space-s);
+  margin-block-end: var(--space-xxl);
 }
 
 .contact-inicio h3 {
@@ -748,11 +749,20 @@
   .hero-section.container,
   .aboutus.container,
   .staff.container,
+  .inicio-novedades,
   .contact-inicio.container {
     padding-inline: var(--space-mm);
   }
 }
+@media (max-width: 726px) {
+    .novedades-grid {
+      grid-template-columns: 1fr;
+    }
 
+    .novedades-detail-image {
+      height: 250px;
+    }
+  }
 @media (max-width: 692px) {
   .aboutus-content {
     flex-direction: column;
@@ -774,6 +784,7 @@
   .hero-section.container,
   .aboutus.container,
   .staff.container,
+  .inicio-novedades,
   .contact-inicio.container {
     padding-inline: var(--space-ss);
   }

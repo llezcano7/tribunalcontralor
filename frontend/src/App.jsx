@@ -12,6 +12,7 @@ import Novedades from '../src/pages/novedades';
 import Novedad from '../src/pages/novedad';
 import Contacto from '../src/pages/contacto';
 import WhatsappButton from './components/whatsappbtn';
+import ScrollToTop from './components/scrolltotop';
 import './reset.css';
 import './library.css'
 
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path='/' element={<Inicio />} />

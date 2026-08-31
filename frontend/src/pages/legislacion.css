@@ -10,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-block-end: var(--space-xxl);
 }
 
 .legislacion-title {
